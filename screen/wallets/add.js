@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   BlueText,
   BlueListItem,
+  EthereumButton,
   LightningButton,
   BitcoinButton,
   VaultButton,
@@ -37,6 +38,7 @@ const ButtonSelected = Object.freeze({
   ONCHAIN: Chain.ONCHAIN,
   OFFCHAIN: Chain.OFFCHAIN,
   VAULT: 'VAULT',
+  ETHEREUM: 'ETHEREUM'
 });
 
 const WalletsAdd = () => {
@@ -153,6 +155,8 @@ const WalletsAdd = () => {
     } else if (selectedWalletType === ButtonSelected.VAULT) {
       setIsLoading(false);
       navigate('WalletsAddMultisig', { walletLabel: label.trim().length > 0 ? label : loc.multisig.default_label });
+    } else if (selectedWalletType === ButtonSelected.ETHEREUM) {
+      console.log("Ethereum-Wallet selected");
     }
   };
 
@@ -215,6 +219,11 @@ const WalletsAdd = () => {
     setSelectedWalletType(ButtonSelected.OFFCHAIN);
   };
 
+  const handleOnEthereumButtonPressed = () => {
+    Keyboard.dismiss();
+    setSelectedWalletType(ButtonSelected.ETHEREUM);
+  };
+
   return (
     <ScrollView style={stylesHook.root}>
       <StatusBar barStyle="light-content" />
@@ -247,6 +256,12 @@ const WalletsAdd = () => {
             style={styles.button}
           />
           <VaultButton active={selectedWalletType === ButtonSelected.VAULT} onPress={handleOnVaultButtonPressed} style={styles.button} />
+          <EthereumButton
+            active={selectedWalletType === ButtonSelected.ETHEREUM}
+            onPress={handleOnEthereumButtonPressed}
+            style={styles.button}
+          />
+
         </View>
 
         <View style={styles.advanced}>
