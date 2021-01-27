@@ -220,6 +220,37 @@ export const LightningButton = props => {
   );
 };
 
+export const EthereumButton = props => {
+  const { colors } = useTheme();
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+      <View
+        style={{
+          borderColor: (props.active && colors.ethborderColor) || colors.buttonDisabledBackgroundColor,
+          borderWidth: 1.5,
+          borderRadius: 8,
+          backgroundColor: colors.buttonDisabledBackgroundColor,
+          minWidth: props.style.width,
+          minHeight: props.style.height,
+          height: props.style.height,
+          flex: 1,
+          marginBottom: 8,
+        }}
+      >
+        <View style={{ marginHorizontal: 16, marginVertical: 10, flexDirection: 'row', alignItems: 'center' }}>
+          <View>
+            <Image style={{ width: 34, height: 34, marginRight: 8 }} source={require('./img/addWallet/lightning.png')} />
+          </View>
+          <View>
+            <Text style={{ color: colors.ethborderColor, fontWeight: 'bold', fontSize: 18 }}>{loc.wallets.add_ethereum}</Text>
+            <Text style={{ color: colors.alternativeTextColor, fontSize: 13, fontWeight: '500' }}>{loc.wallets.add_ethereum_explain}</Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 export class BlueWalletNavigationHeader extends Component {
   static propTypes = {
     wallet: PropTypes.shape().isRequired,
