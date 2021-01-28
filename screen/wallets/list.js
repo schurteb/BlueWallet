@@ -123,9 +123,14 @@ const WalletsList = () => {
         shadowOffset: { height: 0, width: 0 },
       },
       headerRight: () => (
-        <TouchableOpacity testID="SettingsButton" style={styles.headerTouch} onPress={navigateToSettings}>
-          <Icon size={22} name="kebab-horizontal" type="octicon" color={colors.foregroundColor} />
-        </TouchableOpacity>
+        <View style={styles.headerView}>
+          <TouchableOpacity testID="ThemeSwitchButton" style={styles.headerTouchThemeSwitch} onPress={console.log("Switch theme")}>
+            <Icon size={22} name="theme-light-dark" type="material-community" color={colors.foregroundColor} />
+          </TouchableOpacity>
+          <TouchableOpacity testID="SettingsButton" style={styles.headerTouchSettings} onPress={navigateToSettings}>
+            <Icon size={22} name="kebab-horizontal" type="octicon" color={colors.foregroundColor} />
+          </TouchableOpacity>
+        </View>
       ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -491,10 +496,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  headerTouch: {
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  headerTouchThemeSwitch: {
     height: 48,
     paddingRight: 16,
-    paddingLeft: 32,
+    paddingLeft: 16,
+    paddingVertical: 10,
+  },
+  headerTouchSettings: {
+    height: 48,
+    paddingRight: 16,
+    paddingLeft: 16,
     paddingVertical: 10,
   },
   listHeaderBack: {
