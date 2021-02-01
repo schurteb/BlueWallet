@@ -70,7 +70,8 @@
     "passwords_do_not_match": "Inombolo yokuvula azifani",
     "plausible_deniability": "Ukuphika...",
     "retype_password": "Phina inombolo yokuvula",
-    "save": "ndoloza"
+    "save": "ndoloza",
+    "theme": "umxholo"
   },
   "transactions": {
     "details_copy": "Ikopi",

@@ -137,7 +137,8 @@
     "passwords_do_not_match": "兩次輸入密碼不同",
     "plausible_deniability": "可否認性...",
     "retype_password": "再次輸入密碼",
-    "save": "儲存"
+    "save": "儲存",
+    "theme": "主題"
   },
   "transactions": {
     "details_copy": "複製",

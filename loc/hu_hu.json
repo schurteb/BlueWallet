@@ -337,7 +337,8 @@
     "push_notifications": "Push üzenet",
     "retype_password": "Jelszó megerősítése",
     "save": "Ment",
-    "saved": "Elmentve"
+    "saved": "Elmentve",
+    "theme": "Téma"
   },
   "transactions": {
     "cancel_explain": "Kiváltjuk ezt a tranzakciót egy magasabb tranzakciós díjjal járó, teljesülő tranzakcióval. Egyúttal töröljük az eredeti tranzakciót. Ezt a megoldást Tranzakciós Díj Pótlásnak hívjuk, angolul RBF - Replace by Fee.",

@@ -327,7 +327,8 @@
     "push_notifications": "プッシュ通知",
     "retype_password": "パスワードの再入力",
     "save": "保存",
-    "saved": "保存済"
+    "saved": "保存済",
+    "theme": "テーマ"
   },
   "transactions": {
     "cancel_explain": "このトランザクションを、最初の支払い時より高い手数料を持つものに置き換えます。これは事実上、最初のトランザクションをキャンセルします。これはReplace By Fee - RBFと呼ばれています。",

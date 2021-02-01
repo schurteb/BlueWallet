@@ -132,7 +132,8 @@
     "passwords_do_not_match": "两次输入密码不同",
     "plausible_deniability": "可否认性...",
     "retype_password": "再次输入密码",
-    "save": "保存"
+    "save": "保存",
+    "theme": "主题"
   },
   "transactions": {
     "details_copy": "复制",

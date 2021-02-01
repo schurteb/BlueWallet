@@ -69,7 +69,8 @@
     "passwords_do_not_match": "passordene er ikke like",
     "plausible_deniability": "Troverdig denibilitet ...",
     "retype_password": "Skriv inn passordet på nytt",
-    "save": "Lagre"
+    "save": "Lagre",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Kopiere",

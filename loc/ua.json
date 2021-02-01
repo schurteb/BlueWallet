@@ -60,7 +60,8 @@
     "passwords_do_not_match": "Паролі не збігаються",
     "plausible_deniability": "Правдоподібне заперечення...",
     "retype_password": "Наберіть пароль ще раз",
-    "save": "save"
+    "save": "save",
+    "theme": "theme"
   },
   "transactions": {
     "details_copy": "копія",

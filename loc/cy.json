@@ -43,5 +43,8 @@
     "create_fake_storage": "Creu storfa wedi encryptio",
     "create_password": "Creu cyfrinair",
     "create_password_explanation": "Ni ddyliai'r cyfrinair ar gyfer y storfa ffug fod yr un cyfrinair ag ar gyfer y brif storfa"
+  },
+  "settings": {
+    "theme": "Thema"
   }
 }

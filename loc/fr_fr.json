@@ -315,6 +315,7 @@
     "save": "Enregistrer",
     "saved": "Enregistré",
     "success_transaction_broadcasted" : "Succès! Votre transaction a été difusée!",
+    "theme": "Thème",
     "total_balance": "Solde total",
     "total_balance_explanation": "Afficher le solde total de tous vos portefeuilles sur l'écran d'accueil.",
     "widgets": "Widgets"
