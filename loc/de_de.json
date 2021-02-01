@@ -315,6 +315,7 @@
     "save": "Speichern",
     "saved": "Gespeichert",
     "success_transaction_broadcasted" : "Erfolg! Diene Transaktion wurde übertragen.",
+    "theme": "Thema",
     "total_balance": "Gesamtes Guthaben",
     "total_balance_explanation": "Zeigt das Wallet Guthaben auf dem Widget deiner Homepage",
     "widgets": "Widgets"

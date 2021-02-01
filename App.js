@@ -52,14 +52,21 @@ const ClipboardContentType = Object.freeze({
 });
 
 const App = () => {
-  const { walletsInitialized, wallets, addWallet, saveToDisk, fetchAndSaveWalletTransactions, refreshAllWalletTransactions } = useContext(
+  const { walletsInitialized, wallets, addWallet, saveToDisk, fetchAndSaveWalletTransactions, refreshAllWalletTransactions, preferredTheme } = useContext(
     BlueStorageContext,
   );
   const appState = useRef(AppState.currentState);
   const [isClipboardContentModalVisible, setIsClipboardContentModalVisible] = useState(false);
   const [clipboardContentType, setClipboardContentType] = useState();
   const clipboardContent = useRef();
-  const colorScheme = useColorScheme();
+  var colorScheme = useColorScheme();
+
+  if (preferredTheme !== undefined) {
+    if (preferredTheme === 'light' || preferredTheme === 'dark') {
+      colorScheme = preferredTheme;
+    }
+  }
+
   const stylesHook = StyleSheet.create({
     modalContent: {
       backgroundColor: colorScheme === 'dark' ? BlueDarkTheme.colors.elevated : BlueDefaultTheme.colors.elevated,

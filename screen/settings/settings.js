@@ -26,6 +26,7 @@ const Settings = () => {
       <BlueHeaderDefaultSub leftText={loc.settings.header} />
       <BlueListItem title={loc.settings.general} onPress={() => navigate('GeneralSettings')} chevron />
       <BlueListItem title={loc.settings.currency} onPress={() => navigate('Currency')} chevron />
+      <BlueListItem title={loc.settings.theme} onPress={() => navigate('Theme')} chevron />
       <BlueListItem title={loc.settings.language} onPress={() => navigate('Language')} chevron />
       <BlueListItem title={loc.settings.encrypt_title} onPress={() => navigate('EncryptStorage')} testID="SecurityButton" chevron />
       <BlueListItem title={loc.settings.network} onPress={() => navigate('NetworkSettings')} chevron />

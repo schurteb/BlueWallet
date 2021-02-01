@@ -15,8 +15,10 @@ export const BlueStorageProvider = ({ children }) => {
   const [walletsInitialized, setWalletsInitialized] = useState(false);
   const [preferredFiatCurrency, _setPreferredFiatCurrency] = useState();
   const [language, _setLanguage] = useState();
+  const [preferredTheme, _setPreferredTheme] = useState();
   const getPreferredCurrencyAsyncStorage = useAsyncStorage(AppStorage.PREFERRED_CURRENCY).getItem;
   const getLanguageAsyncStorage = useAsyncStorage(AppStorage.LANG).getItem;
+  const getPreferredThemeAsyncStorage = useAsyncStorage(AppStorage.PREFERRED_THEME).getItem;
   const [newWalletAdded, setNewWalletAdded] = useState(false);
   const [isHandOffUseEnabled, setIsHandOffUseEnabled] = useState(false);
   const setIsHandOffUseEnabledAsyncStorage = value => {
@@ -65,9 +67,19 @@ export const BlueStorageProvider = ({ children }) => {
     getLanguage();
   };
 
+  const getPreferredTheme = async () => {
+    const item = await getPreferredThemeAsyncStorage();
+    _setPreferredTheme(item);
+  };
+
+  const setPreferredTheme = () => {
+    getPreferredTheme();
+  };
+
   useEffect(() => {
     getPreferredCurrency();
     getLanguageAsyncStorage();
+    getPreferredTheme();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -205,6 +217,8 @@ export const BlueStorageProvider = ({ children }) => {
         preferredFiatCurrency,
         setLanguage,
         language,
+        setPreferredTheme,
+        preferredTheme,
         isHandOffUseEnabled,
         setIsHandOffUseEnabledAsyncStorage,
       }}

@@ -24,6 +24,7 @@ let usedBucketNum = false;
 export class AppStorage {
   static FLAG_ENCRYPTED = 'data_encrypted';
   static LANG = 'lang';
+  static PREFERRED_THEME = 'preferredTheme';
   static EXCHANGE_RATES = 'currency';
   static LNDHUB = 'lndhub';
   static ELECTRUM_HOST = 'electrum_host';

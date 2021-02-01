@@ -315,6 +315,7 @@
     "save": "Save",
     "saved": "Saved",
     "success_transaction_broadcasted" : "Success! You transaction has been broadcasted!",
+    "theme": "Theme",
     "total_balance": "Total Balance",
     "total_balance_explanation": "Display the total balance of all your wallets on your home screen widgets.",
     "widgets": "Widgets"
