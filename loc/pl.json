@@ -298,7 +298,8 @@
     "push_notifications": "Powiadomienia Push",
     "retype_password": "Wprowadź Ponownie hasło",
     "save": "Zapisz",
-    "saved": "Zapisano"
+    "saved": "Zapisano",
+    "theme": "Motyw"
   },
   "transactions": {
     "cancel_explain": "Zastąpimy tą transakcję taką, która ma wyższe opłaty. To efektywnie anuluje transakcję. Nazywa się to RBF - Replace By Fee, Zastąp Opłatą.",

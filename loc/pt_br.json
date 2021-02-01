@@ -292,7 +292,8 @@
     "retype_password": "Inserir senha novamente",
     "save": "Salvar",
     "saved": "Salvo",
-    "success_transaction_broadcasted" : "Sucesso! Sua transação foi transmitida!"
+    "success_transaction_broadcasted" : "Sucesso! Sua transação foi transmitida!",
+    "theme": "Tema"
   },
   "notifications": {
     "would_you_like_to_receive_notifications": "Gostaria de receber notificações quando receber pagamentos?",

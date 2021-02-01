@@ -314,6 +314,7 @@
     "save": "Guardar",
     "saved": "Guardado",
     "success_transaction_broadcasted" : "¡Listo! ¡Tu transacción ha sido emitida!",
+    "theme": "Tema",
     "total_balance": "Balance total",
     "total_balance_explanation": "Muestra el balance total de todas tus carteras en los widgets de tu pantalla principal.",
     "widgets": "Widgets"

@@ -286,7 +286,8 @@
     "push_notifications": "Notificaciones push",
     "retype_password": "Ingresa la contraseña nuevamente",
     "save": "save",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "theme": "Tema"
   },
   "transactions": {
     "cancel_explain": "Reemplazaremos esta transacción con la que le paga y tiene tarifas más altas. Esto efectivamente cancela la transacción. Esto se llama RBF - Reemplazar por tarifa.",

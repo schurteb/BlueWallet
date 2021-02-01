@@ -71,7 +71,8 @@
     "passwords_do_not_match": "Οι κωδικοί δεν είναι ίδιοι",
     "plausible_deniability": "Εύλογη δυνατότητα άρνησης...",
     "retype_password": "Ξαναδώσε τον κωδικό",
-    "save": "Σώσε"
+    "save": "Σώσε",
+    "theme": "θέμα"
   },
   "transactions": {
     "details_copy": "Αντέγραψε",

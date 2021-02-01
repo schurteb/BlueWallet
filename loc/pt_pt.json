@@ -271,7 +271,8 @@
     "push_notifications": "Notificações via push",
     "retype_password": "Inserir password novamente",
     "save": "Guardar",
-    "saved": "Guardado"
+    "saved": "Guardado",
+    "theme": "Tema"
   },
   "transactions": {
     "cancel_explain": "Substituiremos esta transacção por aquela que lhe paga e tem taxas mais altas. Isso efectivamente cancela a transacção. Isto é chamado de RBF - Substituir por Taxa.",

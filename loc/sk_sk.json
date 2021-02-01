@@ -195,7 +195,8 @@
     "push_notifications": "Push notifikácie",
     "retype_password": "Heslo znovu",
     "save": "Uložiť",
-    "saved": "Uložené"
+    "saved": "Uložené",
+    "theme": "Téma"
   },
   "transactions": {
     "cancel_explain": "Transakciu nahradíme novou, ktorá bude mať výstupy rovnaké ako vstupy, teda Bitcoiny pošlete sebe. Tým, že poplatok za transakciu bude vyšší, transakcia bude overená skôr. Tento postup slúži na zrušenie transakcie a volá sa RBF - Replace By Fee.",

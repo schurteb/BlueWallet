@@ -119,7 +119,8 @@
     "passwords_do_not_match": "Le password non corrispondono",
     "plausible_deniability": "Negazione plausibile...",
     "retype_password": "Reinserisci password",
-    "save": "Salva"
+    "save": "Salva",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Copia",

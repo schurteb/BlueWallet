@@ -314,6 +314,7 @@
     "save": "Сохранить",
     "saved": "Сохранено",
     "success_transaction_broadcasted" : "Транзакция успешно транслирована в сеть!",
+    "theme": "тема",
     "total_balance": "Баланс",
     "total_balance_explanation": "Показывать в виджетах общий баланс кошельков",
     "widgets": "Виджеты"
