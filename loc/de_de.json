@@ -361,8 +361,6 @@
   "wallets": {
     "add_bitcoin": "Bitcoin",
     "add_bitcoin_explain": "Einfache und leistungsstarke Bitcoin Wallet",
-    "add_ethereum": "Ethereum",
-    "add_ethereum_explain": "Einfache und leistungsstarke Ethereum Wallet",
     "add_create": "Erstellen",
     "add_entropy_generated": "{gen} Bytes an generierter Entropie ",
     "add_entropy_provide": "Entropie selbst erzeugen",
