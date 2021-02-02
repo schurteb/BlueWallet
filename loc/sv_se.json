@@ -201,7 +201,8 @@
     "plausible_deniability": "Trovärdigt förnekande...",
     "privacy_system_settings": "Systeminställningar",
     "retype_password": "Ange lösenord igen",
-    "save": "Spara"
+    "save": "Spara",
+    "theme": "Tema"
   },
   "transactions": {
     "cpfp_create": "Skapa",

@@ -1,5 +1,8 @@
 {
   "_": {
     "storage_is_encrypted": "Lưu trữ của bạn được mã hoá. Mật khẩu được yêu cầu để giải mã"
+  },
+  "settings": {
+    "theme": "chủ đề"
   }
 }

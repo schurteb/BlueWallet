@@ -63,7 +63,8 @@
     "passwords_do_not_match": "Adgangskoden er ikke den samme",
     "plausible_deniability": "Sandsynlig benægtelse...",
     "retype_password": "Gentag adgangskoden",
-    "save": "save"
+    "save": "save",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Kopier",

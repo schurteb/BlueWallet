@@ -242,7 +242,8 @@
     "push_notifications": "การแจ้งเตือนแบบ Push",
     "retype_password": "ใส่รหัสผ่านอีกครั้ง",
     "save": "บันทึก",
-    "saved": "บันทึกแล้ว"
+    "saved": "บันทึกแล้ว",
+    "theme": "ธีม"
   },
   "transactions": {
     "cancel_no": "ธุรกรรมนี้ไม่สามารทเปลี่ยนแทนได้",

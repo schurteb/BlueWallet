@@ -351,7 +351,8 @@
     "push_notifications": "התראות",
     "retype_password": "הכניסו שוב סיסמה",
     "save": "שמירה",
-    "saved": "נשמר"
+    "saved": "נשמר",
+    "theme": "נושא"
   },
   "transactions": {
     "cancel_explain": "אנו נחליף את ההעברה הזאת באחת עם עמלה גבוהה יותר. פעולה זאת למעשה מבטלת את העברה. פעולה זאת נקראת RBF - Replace By Fee.",

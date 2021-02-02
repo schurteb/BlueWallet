@@ -32,8 +32,6 @@ export const BlueDefaultTheme = {
     hdbackgroundColor: '#ECF9FF',
     lnborderColor: '#FFB600',
     lnbackgroundColor: '#FFFAEF',
-    ethborderColor: '#335F00',
-    ethbackgroundColor: '#F6FFEB',
     background: '#FFFFFF',
     customHeader: 'rgba(0,0,0,0)',
     lightButton: '#eef0f4',

@@ -69,7 +69,8 @@
     "passwords_do_not_match": "Wagwoorde stem nie oor een nie",
     "plausible_deniability": "Geloofwaardige ontkenbaarheid...",
     "retype_password": "Hervoer wagwoord",
-    "save": "stoor"
+    "save": "stoor",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Kopieer",

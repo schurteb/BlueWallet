@@ -76,7 +76,8 @@
     "passwords_do_not_match": "Lozinke su različite",
     "plausible_deniability": "Fejk volet...",
     "retype_password": "Ponovi lozinku",
-    "save": "Spremi"
+    "save": "Spremi",
+    "theme": "tema"
   },
   "transactions": {
     "details_copy": "Kopiraj",

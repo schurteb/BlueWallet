@@ -243,7 +243,8 @@
     "privacy": "Privacitat",
     "retype_password": "Introdueix de nou la contrasenya contrasenya",
     "save": "guardar",
-    "saved": "Desat"
+    "saved": "Desat",
+    "theme": "Tema"
   },
   "transactions": {
     "cpfp_create": "Crear",

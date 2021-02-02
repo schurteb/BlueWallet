@@ -91,5 +91,8 @@
     "potentialFee": "Възможна такса: {fee}",
     "refill": "Зареди",
     "refill_card": "Зареди с банкова карта"
+  },
+  "settings": {
+    "theme": "тема"
   }
 }

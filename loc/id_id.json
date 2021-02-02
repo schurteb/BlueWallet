@@ -184,7 +184,8 @@
     "passwords_do_not_match": "Kata sandi tidak cocok",
     "plausible_deniability": "Plausible deniability...",
     "retype_password": "Ulangi kata sandi",
-    "save": "simpan"
+    "save": "simpan",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Salin",

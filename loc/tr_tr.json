@@ -78,7 +78,8 @@
     "passwords_do_not_match": "Şifreler eşleşmedi",
     "plausible_deniability": "Makul ret...",
     "retype_password": "Şifrenizi yeniden girin",
-    "save": "Kaydet"
+    "save": "Kaydet",
+    "theme": "Tema"
   },
   "transactions": {
     "details_copy": "Kopya",
