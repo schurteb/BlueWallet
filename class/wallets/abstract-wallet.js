@@ -28,6 +28,7 @@ export class AbstractWallet {
     this._lastTxFetch = 0;
     this._lastBalanceFetch = 0;
     this.preferredBalanceUnit = BitcoinUnit.BTC;
+    this.preferredBalanceSecondaryUnit = BitcoinUnit.LOCAL_CURRENCY;
     this.chain = Chain.ONCHAIN;
     this.hideBalance = false;
     this.userHasSavedExport = false;
@@ -89,6 +90,15 @@ export class AbstractWallet {
       }
     }
     return BitcoinUnit.BTC;
+  }
+
+  getPreferredBalanceSecondaryUnit() {
+    for (const value of Object.values(BitcoinUnit)) {
+      if (value === this.preferredBalanceSecondaryUnit) {
+        return this.preferredBalanceSecondaryUnit;
+      }
+    }
+    return BitcoinUnit.LOCAL_CURRENCY;
   }
 
   allowReceive() {

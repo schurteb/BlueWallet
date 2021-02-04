@@ -256,7 +256,9 @@ export default class SendDetails extends Component {
           fastestFee: null,
         },
         feeUnit: fromWallet.getPreferredBalanceUnit(),
+        feeSecondaryUnit: fromWallet.getPreferredBalanceSecondaryUnit(),
         amountUnit: fromWallet.preferredBalanceUnit, // default for whole screen
+        amountSecondaryUnit: fromWallet.preferredBalanceSecondaryUnit, // default for whole screen
         renderWalletSelectionButtonHidden: false,
         width: Dimensions.get('window').width,
         utxo: null,
@@ -353,7 +355,7 @@ export default class SendDetails extends Component {
         const { address, amount, memo, payjoinUrl } = DeeplinkSchemaMatch.decodeBitcoinUri(uri);
         addresses.push(new BitcoinTransaction(address, amount, currency.btcToSatoshi(amount)));
         initialMemo = memo;
-        this.setState({ addresses, memo: initialMemo, isLoading: false, amountUnit: BitcoinUnit.BTC, payjoinUrl });
+        this.setState({ addresses, memo: initialMemo, isLoading: false, amountUnit: BitcoinUnit.BTC, amountSecondaryUnit: BitcoinUnit.BTC, payjoinUrl });
       } catch (error) {
         console.log(error);
         alert(loc.send.details_error_decode);
@@ -361,7 +363,7 @@ export default class SendDetails extends Component {
     } else if (this.props.route.params.address) {
       addresses.push(new BitcoinTransaction(this.props.route.params.address));
       if (this.props.route.params.memo) initialMemo = this.props.route.params.memo;
-      this.setState({ addresses, memo: initialMemo, isLoading: false, amountUnit: BitcoinUnit.BTC });
+      this.setState({ addresses, memo: initialMemo, isLoading: false, amountUnit: BitcoinUnit.BTC, amountSecondaryUnit: BitcoinUnit.BTC });
     } else {
       this.setState({ addresses: [new BitcoinTransaction()], isLoading: false });
     }

@@ -192,10 +192,14 @@ const LNDViewInvoice = () => {
       const invoiceExpiration = invoice.timestamp + invoice.expire_time;
       if (invoice.ispaid || invoice.type === 'paid_invoice') {
         let amount = 0;
+        let amountSecondary = 0;
         if (invoice.type === 'paid_invoice' && invoice.value) {
           amount = invoice.value;
+          amountSecondary = invoice.value;
+          console.log("AmountSecondary: " + amountSecondary);
         } else if (invoice.type === 'user_invoice' && invoice.amt) {
           amount = invoice.amt;
+          amountSecondary = invoice.amt;
         }
         let description = invoice.description;
         if (invoice.memo && invoice.memo.length > 0) {
@@ -205,7 +209,8 @@ const LNDViewInvoice = () => {
           <View style={styles.root}>
             <SuccessView
               amount={amount}
-              amountUnit={BitcoinUnit.SATS}
+              amountUnit={wallet.getPreferredBalanceUnit()}
+              amountSecondaryUnit={wallet.getPreferredBalanceSecondaryUnit()}
               invoiceDescription={description}
               shouldAnimate={invoiceStatusChanged}
             />

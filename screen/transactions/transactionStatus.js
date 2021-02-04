@@ -46,7 +46,13 @@ const TransactionsStatus = () => {
     value: {
       color: colors.alternativeTextColor2,
     },
+    secondaryValue: {
+      color: colors.alternativeTextColor2,
+    },
     valueUnit: {
+      color: colors.alternativeTextColor2,
+    },
+    valueSecondaryUnit: {
       color: colors.alternativeTextColor2,
     },
     iconRoot: {
@@ -288,11 +294,20 @@ const TransactionsStatus = () => {
       <StatusBar barStyle="default" />
       <View style={styles.container}>
         <BlueCard>
-          <View style={styles.center}>
+          <View style={styles.firstView}>
             <Text style={[styles.value, stylesHook.value]}>
               {formatBalanceWithoutSuffix(tx.value, wallet.current.preferredBalanceUnit, true)}{' '}
               {wallet.current.preferredBalanceUnit !== BitcoinUnit.LOCAL_CURRENCY && (
                 <Text style={[styles.valueUnit, stylesHook.valueUnit]}>{loc.units[wallet.current.preferredBalanceUnit]}</Text>
+              )}
+            </Text>
+          </View>
+
+          <View style={styles.view}>
+            <Text style={[styles.secondaryValue, stylesHook.secondaryValue]}>
+              {formatBalanceWithoutSuffix(tx.value, wallet.current.preferredBalanceSecondaryUnit, true)}{' '}
+              {wallet.current.preferredBalanceSecondaryUnit !== BitcoinUnit.LOCAL_CURRENCY && (
+                <Text style={[styles.valueSecondaryUnit, stylesHook.valueSecondaryUnit]}>{loc.units[wallet.current.preferredBalanceSecondaryUnit]}</Text>
               )}
             </Text>
           </View>
@@ -376,7 +391,28 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '600',
   },
+  firstView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 16,
+  },
+  view: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: 12,
+    paddingBottom: 16,
+  },
+  secondaryValue: {
+    fontSize: 16,
+    marginHorizontal: 4,
+    paddingBottom: 6,
+    fontWeight: '600',
+  },
   valueUnit: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  valueSecondaryUnit: {
     fontSize: 16,
     fontWeight: '600',
   },

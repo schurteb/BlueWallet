@@ -568,6 +568,7 @@ export class AppStorage {
       const walletTransactions = wallet.getTransactions();
       for (const t of walletTransactions) {
         t.walletPreferredBalanceUnit = wallet.getPreferredBalanceUnit();
+        t.walletPreferredBalanceSecondaryUnit = wallet.getPreferredBalanceSecondaryUnit();
       }
       txs = txs.concat(walletTransactions);
     }

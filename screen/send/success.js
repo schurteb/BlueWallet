@@ -5,7 +5,7 @@ import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { Text } from 'react-native-elements';
 import { BlueButton, BlueCard } from '../../BlueComponents';
 import { BitcoinUnit } from '../../models/bitcoinUnits';
-import loc from '../../loc';
+import loc, { formatBalance } from '../../loc';
 import PropTypes from 'prop-types';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 
@@ -15,7 +15,7 @@ const Success = () => {
   };
   const { colors } = useTheme();
   const { dangerouslyGetParent } = useNavigation();
-  const { amount, fee, amountUnit = BitcoinUnit.BTC, invoiceDescription = '', onDonePressed = pop } = useRoute().params;
+  const { amount, amountSecondary, fee, amountUnit = BitcoinUnit.BTC, amountSecondaryUnit = BitcoinUnit.LOCAL_CURRENCY, invoiceDescription = '', onDonePressed = pop } = useRoute().params;
   const stylesHook = StyleSheet.create({
     root: {
       backgroundColor: colors.elevated,
@@ -24,6 +24,9 @@ const Success = () => {
       color: colors.alternativeTextColor2,
     },
     amountUnit: {
+      color: colors.alternativeTextColor2,
+    },
+    amountSecondaryUnit: {
       color: colors.alternativeTextColor2,
     },
   });
@@ -37,7 +40,9 @@ const Success = () => {
     <SafeAreaView style={[styles.root, stylesHook.root]}>
       <SuccessView
         amount={amount}
+        amountSecondary={amountSecondary}
         amountUnit={amountUnit}
+        amountSecondaryUnit={amountSecondaryUnit}
         fee={fee}
         invoiceDescription={invoiceDescription}
         onDonePressed={onDonePressed}
@@ -51,7 +56,7 @@ const Success = () => {
 
 export default Success;
 
-export const SuccessView = ({ amount, amountUnit, fee, invoiceDescription, shouldAnimate = true }) => {
+export const SuccessView = ({ amount, amountUnit, amountSecondaryUnit, fee, invoiceDescription, shouldAnimate = true }) => {
   const animationRef = useRef();
   const { colors } = useTheme();
 
@@ -60,6 +65,9 @@ export const SuccessView = ({ amount, amountUnit, fee, invoiceDescription, shoul
       color: colors.alternativeTextColor2,
     },
     amountUnit: {
+      color: colors.alternativeTextColor2,
+    },
+    amountSecondaryUnit: {
       color: colors.alternativeTextColor2,
     },
   });
@@ -75,19 +83,31 @@ export const SuccessView = ({ amount, amountUnit, fee, invoiceDescription, shoul
   return (
     <View style={styles.root}>
       <BlueCard style={styles.amount}>
-        <View style={styles.view}>
-          {amount && (
+
+        <View style={styles.firstView}>
+          {formatBalance(amount, amountUnit, true).toString() !== undefined && (
             <>
-              <Text style={[styles.amountValue, stylesHook.amountValue]}>{amount}</Text>
-              <Text style={[styles.amountUnit, stylesHook.amountUnit]}>{' ' + loc.units[amountUnit]}</Text>
+              <Text style={[styles.amountValue, stylesHook.amountValue]}>{formatBalance(amount, amountUnit, true).toString() || "..."}</Text>
             </>
           )}
         </View>
+
+        <View style={styles.view}>
+          {formatBalance(amount, amountSecondaryUnit, true).toString() !== undefined && (
+            <>
+              <Text style={[styles.amountSecondaryUnit, stylesHook.amountSecondaryUnit]}>{formatBalance(amount, amountSecondaryUnit, true).toString() || "..."}</Text>
+            </>
+          )}
+        </View>
+
         {fee > 0 && (
-          <Text style={styles.feeText}>
-            {loc.send.create_fee}: {fee} {loc.units[BitcoinUnit.BTC]}
-          </Text>
+          <View>
+            <Text style={styles.feeText}>
+              {loc.send.create_fee}: {fee} {loc.units[BitcoinUnit.BTC]}
+            </Text>
+          </View>
         )}
+
         <Text numberOfLines={0} style={styles.feeText}>
           {invoiceDescription}
         </Text>
@@ -122,7 +142,9 @@ export const SuccessView = ({ amount, amountUnit, fee, invoiceDescription, shoul
 
 SuccessView.propTypes = {
   amount: PropTypes.number,
+  amountSecondary: PropTypes.number,
   amountUnit: PropTypes.string,
+  amountSecondaryUnit: PropTypes.string,
   fee: PropTypes.number,
   invoiceDescription: PropTypes.string,
   shouldAnimate: PropTypes.bool,
@@ -131,7 +153,6 @@ SuccessView.propTypes = {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingTop: 19,
   },
   buttonContainer: {
     padding: 58,
@@ -139,10 +160,15 @@ const styles = StyleSheet.create({
   amount: {
     alignItems: 'center',
   },
+  firstView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 16,
+  },
   view: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 76,
+    paddingTop: 12,
     paddingBottom: 16,
   },
   amountValue: {
@@ -150,6 +176,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   amountUnit: {
+    fontSize: 16,
+    marginHorizontal: 4,
+    paddingBottom: 6,
+    fontWeight: '600',
+    alignSelf: 'flex-end',
+  },
+  amountSecondaryUnit: {
     fontSize: 16,
     marginHorizontal: 4,
     paddingBottom: 6,
