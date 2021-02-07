@@ -367,7 +367,6 @@ const LNDCreateInvoice = () => {
               isLoading={isLoading}
               amount={amount}
               onAmountUnitChange={setUnit}
-              onAmountSecondaryUnitChange={setSecondaryUnit}
               onChangeText={text => {
                 if (lnurlParams) {
                   // in this case we prevent the user from changing the amount to < min or > max

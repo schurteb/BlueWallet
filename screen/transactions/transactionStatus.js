@@ -49,11 +49,26 @@ const TransactionsStatus = () => {
     secondaryValue: {
       color: colors.alternativeTextColor2,
     },
+    feeValue: {
+      color: colors.alternativeTextColor2,
+    },
+    feeSecondaryValue: {
+      color: colors.alternativeTextColor2,
+    },
     valueUnit: {
       color: colors.alternativeTextColor2,
     },
     valueSecondaryUnit: {
       color: colors.alternativeTextColor2,
+    },
+    feeUnit: {
+      color: colors.alternativeTextColor2,
+    },
+    feeSecondaryUnit: {
+      color: colors.alternativeTextColor2,
+    },
+    memoText: {
+      color: colors.alternativeTextColor,
     },
     iconRoot: {
       backgroundColor: colors.success,
@@ -132,6 +147,24 @@ const TransactionsStatus = () => {
   useEffect(() => {
     console.log('transactions/details - useEffect');
   }, []);
+
+  const calcFee = (tx, unit) => {
+    if (!tx || !tx.inputs || !tx.outputs) return "0";
+
+    let fee = 0;
+
+    tx.inputs.forEach(input => {
+      fee += input.value;
+    });
+
+    tx.outputs.forEach(output => {
+      fee -= output.value;
+    });
+
+    fee *= 100000000;
+
+    return formatBalanceWithoutSuffix(fee, unit, true).toString();
+  };
 
   const checkPossibilityOfCPFP = async () => {
     if (!wallet.current.allowRBF()) {
@@ -263,19 +296,6 @@ const TransactionsStatus = () => {
     }
   };
 
-  const renderTXMetadata = () => {
-    if (txMetadata[tx.hash]) {
-      if (txMetadata[tx.hash].memo) {
-        return (
-          <View style={styles.memo}>
-            <Text style={styles.memoText}>{txMetadata[tx.hash].memo}</Text>
-            <BlueSpacing20 />
-          </View>
-        );
-      }
-    }
-  };
-
   if (isLoading || !tx) {
     return (
       <SafeBlueArea forceInset={{ horizontal: 'always' }} style={[styles.root, stylesHook.root]}>
@@ -294,6 +314,7 @@ const TransactionsStatus = () => {
       <StatusBar barStyle="default" />
       <View style={styles.container}>
         <BlueCard>
+
           <View style={styles.firstView}>
             <Text style={[styles.value, stylesHook.value]}>
               {formatBalanceWithoutSuffix(tx.value, wallet.current.preferredBalanceUnit, true)}{' '}
@@ -312,7 +333,39 @@ const TransactionsStatus = () => {
             </Text>
           </View>
 
-          {renderTXMetadata()}
+          {calcFee(tx, wallet.current.preferredBalanceUnit) !== "" && (
+            <View style={styles.firstFeeView}>
+              <Text style={[styles.feeValue, stylesHook.feeValue]}>
+                {`\n`}{loc.send.create_fee}
+              </Text>
+            </View>
+          )}
+
+          {calcFee(tx, wallet.current.preferredBalanceUnit) !== "" && (
+            <View style={styles.feeView}>
+              <Text style={[styles.feeValue, stylesHook.feeValue]}>
+                {calcFee(tx, wallet.current.preferredBalanceUnit)}{' '}
+                {wallet.current.preferredBalanceUnit !== BitcoinUnit.LOCAL_CURRENCY && (
+                  <Text style={[styles.feeUnit, stylesHook.feeUnit]}>{loc.units[wallet.current.preferredBalanceUnit]}</Text>
+                )}
+              </Text>
+              <Text style={[styles.feeSecondaryValue, stylesHook.feeSecondaryValue]}>
+                {' ('}
+                {calcFee(tx, wallet.current.preferredBalanceSecondaryUnit)}
+                {wallet.current.preferredBalanceSecondaryUnit !== BitcoinUnit.LOCAL_CURRENCY && (
+                  <Text style={[styles.feeSecondaryUnit, stylesHook.feeSecondaryUnit]}>{loc.units[wallet.current.preferredBalanceSecondaryUnit]}</Text>
+                )}{') '}
+                </Text>
+            </View>
+          )}
+
+          {txMetadata !== undefined && txMetadata[tx.hash] !== undefined && txMetadata[tx.hash].memo !== undefined && ( // TODO_BENJ Produces error: Text strings can only be rendered in Text Components
+            <View style={[styles.view, stylesHook.view]}>
+              <Text style={[styles.memoText, stylesHook.memoText]}>
+                {`\n`}{txMetadata[tx.hash].memo}
+              </Text>
+            </View>
+          )}
 
           <View style={[styles.iconRoot, stylesHook.iconRoot]}>
             <View>
@@ -342,15 +395,6 @@ const TransactionsStatus = () => {
               })()}
             </View>
           </View>
-
-          {tx.fee && (
-            <View style={styles.fee}>
-              <BlueText style={styles.feeText}>
-                {loc.send.create_fee.toLowerCase()} {formatBalanceWithoutSuffix(tx.fee, wallet.current.preferredBalanceUnit, true)}{' '}
-                {wallet.current.preferredBalanceUnit !== BitcoinUnit.LOCAL_CURRENCY && wallet.current.preferredBalanceUnit}
-              </BlueText>
-            </View>
-          )}
 
           <View style={[styles.confirmations, stylesHook.confirmations]}>
             <Text style={styles.confirmationsText}>
@@ -387,25 +431,38 @@ const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
   },
-  value: {
-    fontSize: 36,
-    fontWeight: '600',
-  },
   firstView: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingBottom: 16,
+    paddingTop: 0,
   },
   view: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 12,
-    paddingBottom: 16,
+  },
+  firstFeeView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: 16,
+  },
+  feeView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  value: {
+    fontSize: 36,
+    fontWeight: '600',
   },
   secondaryValue: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  feeValue: {
     fontSize: 16,
-    marginHorizontal: 4,
-    paddingBottom: 6,
+    fontWeight: '600',
+  },
+  feeSecondaryValue: {
+    fontSize: 16,
     fontWeight: '600',
   },
   valueUnit: {
@@ -416,13 +473,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  feeUnit: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  feeSecondaryUnit: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
   memo: {
     alignItems: 'center',
     marginVertical: 8,
   },
   memoText: {
     color: '#9aa0aa',
-    fontSize: 14,
+    fontSize: 16,
   },
   iconRoot: {
     width: 120,
@@ -452,10 +517,11 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   feeText: {
-    fontSize: 11,
+    color: '#37c0a1',
+    fontSize: 14,
+    marginHorizontal: 4,
+    paddingBottom: 6,
     fontWeight: '500',
-    marginBottom: 4,
-    color: '#00c49f',
     alignSelf: 'center',
   },
   confirmations: {
