@@ -44,6 +44,7 @@ const LNDCreateInvoice = () => {
   const { colors } = useTheme();
   const { navigate, dangerouslyGetParent, goBack, pop, setParams } = useNavigation();
   const [unit, setUnit] = useState(wallet.current?.getPreferredBalanceUnit() || BitcoinUnit.BTC);
+  const [secondaryUnit, setSecondaryUnit] = useState(wallet.current?.getPreferredBalanceSecondaryUnit() || BitcoinUnit.BTC);
   const [amount, setAmount] = useState();
   const [renderWalletSelectionButtonHidden, setRenderWalletSelectionButtonHidden] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -382,6 +383,7 @@ const LNDCreateInvoice = () => {
               }}
               disabled={isLoading || (lnurlParams && lnurlParams.fixed)}
               unit={unit}
+              secondaryUnit={secondaryUnit}
               inputAccessoryViewID={BlueDismissKeyboardInputAccessory.InputAccessoryViewID}
             />
             <View style={[styles.fiat, styleHooks.fiat]}>

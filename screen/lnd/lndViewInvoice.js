@@ -201,11 +201,14 @@ const LNDViewInvoice = () => {
         if (invoice.memo && invoice.memo.length > 0) {
           description = invoice.memo;
         }
+        let fee = 0;
         return (
           <View style={styles.root}>
             <SuccessView
               amount={amount}
-              amountUnit={BitcoinUnit.SATS}
+              amountUnit={wallet.getPreferredBalanceUnit()}
+              amountSecondaryUnit={wallet.getPreferredBalanceSecondaryUnit()}
+              fee={fee}
               invoiceDescription={description}
               shouldAnimate={invoiceStatusChanged}
             />

@@ -224,20 +224,27 @@ export class BlueWalletNavigationHeader extends Component {
   static propTypes = {
     wallet: PropTypes.shape().isRequired,
     onWalletUnitChange: PropTypes.func,
+    onWalletSecondaryUnitChange: PropTypes.func,
   };
 
   static getDerivedStateFromProps(props, state) {
-    return { wallet: props.wallet, onWalletUnitChange: props.onWalletUnitChange, allowOnchainAddress: state.allowOnchainAddress };
+    return { wallet: props.wallet, 
+      onWalletUnitChange: props.onWalletUnitChange, 
+      onWalletSecondaryUnitChange: props.onWalletSecondaryUnitChange, 
+      allowOnchainAddress: state.allowOnchainAddress
+    };
   }
 
   static contextType = BlueStorageContext;
   walletBalanceText = React.createRef();
+  walletBalanceSecondaryText = React.createRef();
 
   constructor(props) {
     super(props);
     this.state = {
       wallet: props.wallet,
       walletPreviousPreferredUnit: props.wallet.getPreferredBalanceUnit(),
+      walletPreviousPreferredSecondaryUnit: props.wallet.getPreferredBalanceSecondaryUnit(),
       showManageFundsButton: false,
     };
   }
@@ -312,6 +319,8 @@ export class BlueWalletNavigationHeader extends Component {
 
   changeWalletBalanceUnit = () => {
     let walletPreviousPreferredUnit = this.state.wallet.getPreferredBalanceUnit();
+    let walletPreviousPreferredSecondaryUnit = this.state.wallet.getPreferredBalanceSecondaryUnit();
+
     const wallet = this.state.wallet;
     if (walletPreviousPreferredUnit === BitcoinUnit.BTC) {
       wallet.preferredBalanceUnit = BitcoinUnit.SATS;
@@ -327,8 +336,32 @@ export class BlueWalletNavigationHeader extends Component {
       walletPreviousPreferredUnit = BitcoinUnit.BTC;
     }
 
-    this.setState({ wallet, walletPreviousPreferredUnit: walletPreviousPreferredUnit }, () => {
+    this.setState({ wallet, walletPreviousPreferredUnit: walletPreviousPreferredUnit, walletPreviousPreferredSecondaryUnit: walletPreviousPreferredSecondaryUnit }, () => {
       this.props.onWalletUnitChange(wallet);
+    });
+  };
+
+  changeWalletBalanceSecondaryUnit = () => {
+    let walletPreviousPreferredUnit = this.state.wallet.getPreferredBalanceUnit();
+    let walletPreviousPreferredSecondaryUnit = this.state.wallet.getPreferredBalanceSecondaryUnit();
+
+    const wallet = this.state.wallet;
+    if (walletPreviousPreferredSecondaryUnit === BitcoinUnit.BTC) {
+      wallet.preferredBalanceSecondaryUnit = BitcoinUnit.SATS;
+      walletPreviousPreferredSecondaryUnit = BitcoinUnit.BTC;
+    } else if (walletPreviousPreferredSecondaryUnit === BitcoinUnit.SATS) {
+      wallet.preferredBalanceSecondaryUnit = BitcoinUnit.LOCAL_CURRENCY;
+      walletPreviousPreferredSecondaryUnit = BitcoinUnit.SATS;
+    } else if (walletPreviousPreferredSecondaryUnit === BitcoinUnit.LOCAL_CURRENCY) {
+      wallet.preferredBalanceSecondaryUnit = BitcoinUnit.BTC;
+      walletPreviousPreferredSecondaryUnit = BitcoinUnit.BTC;
+    } else {
+      wallet.preferredBalanceSecondaryUnit = BitcoinUnit.BTC;
+      walletPreviousPreferredSecondaryUnit = BitcoinUnit.BTC;
+    }
+
+    this.setState({ wallet, walletPreviousPreferredUnit: walletPreviousPreferredUnit, walletPreviousPreferredSecondaryUnit: walletPreviousPreferredSecondaryUnit }, () => {
+      this.props.onWalletSecondaryUnitChange(wallet);
     });
   };
 
@@ -418,6 +451,31 @@ export class BlueWalletNavigationHeader extends Component {
               }}
             >
               {formatBalance(this.state.wallet.getBalance(), this.state.wallet.getPreferredBalanceUnit(), true).toString()}
+            </Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.balance}
+          onPress={this.changeWalletBalanceSecondaryUnit}
+          ref={this.walletBalanceSecondaryText}
+          onLongPress={() => (Platform.OS === 'ios' ? this.tooltip.showMenu() : this.showAndroidTooltip())}
+        >
+          {this.state.wallet.hideBalance ? (
+            <BluePrivateBalance />
+          ) : (
+            <Text
+              testID="WalletBalanceSecondary"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              style={{
+                backgroundColor: 'transparent',
+                fontWeight: 'bold',
+                fontSize: 24,
+                color: '#fff',
+              }}
+            >
+              {formatBalance(this.state.wallet.getBalance(), this.state.wallet.getPreferredBalanceSecondaryUnit(), true).toString()}
             </Text>
           )}
         </TouchableOpacity>
@@ -656,9 +714,75 @@ export const BlueListItem = React.memo(props => {
       </ListItem.Content>
       <ListItem.Content right>
         {props.rightTitle && (
-          <ListItem.Title style={props.rightTitleStyle} numberOfLines={0} right>
+          <ListItem.Title style={props.rightTitleStyle} numberOfLines={1} right>
             {props.rightTitle}
           </ListItem.Title>
+        )}
+        {props.rightSubtitle && (
+          <ListItem.Subtitle style={props.rightSubtitleStyle} numberOfLines={1} right>
+            {props.rightSubtitle}
+          </ListItem.Subtitle>
+        )}
+      </ListItem.Content>
+      {props.isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          {props.chevron && <ListItem.Chevron />}
+          {props.rightIcon && <Avatar icon={props.rightIcon} />}
+          {props.switch && <Switch {...props.switch} />}
+          {props.checkmark && <ListItem.CheckBox iconType="octaicon" checkedColor="#0070FF" checkedIcon="check" checked />}
+        </>
+      )}
+    </ListItem>
+  );
+});
+
+export const BlueCardItem = React.memo(props => {
+  const { colors } = useTheme();
+  return (
+    <ListItem
+      containerStyle={props.containerStyle ?? { backgroundColor: 'transparent' }}
+      Component={props.Component ?? TouchableOpacity}
+      bottomDivider={props.bottomDivider !== undefined ? props.bottomDivider : true}
+      topDivider={props.topDivider !== undefined ? props.topDivider : false}
+      testID={props.testID}
+      onPress={props.onPress}
+      disabled={props.disabled}
+    >
+      {props.leftAvatar && <Avatar>{props.leftAvatar}</Avatar>}
+      {props.leftIcon && props.leftIconType && <Icon name={props.leftIcon} type={props.leftIconType} color={colors.foregroundColor} />}
+      <ListItem.Content>
+        <ListItem.Title
+          style={{
+            color: props.disabled ? colors.buttonDisabledTextColor : colors.foregroundColor,
+            fontSize: 16,
+            fontWeight: '500',
+          }}
+          numberOfLines={0}
+        >
+          {props.title}
+        </ListItem.Title>
+        {props.subtitle && (
+          <ListItem.Subtitle
+            numberOfLines={1}
+            style={{ flexWrap: 'wrap', color: colors.alternativeTextColor, fontWeight: '400', fontSize: 14 }}
+          >
+            {props.subtitle}
+          </ListItem.Subtitle>
+        )}
+      </ListItem.Content>
+      
+      <ListItem.Content right>
+        {props.rightTitle && (
+          <ListItem.Title style={props.rightTitleStyle} numberOfLines={1} right>
+            {props.rightTitle}
+          </ListItem.Title>
+        )}
+        {props.rightSubtitle && (
+          <ListItem.Subtitle style={props.rightSubtitleStyle} numberOfLines={1} right>
+            {props.rightSubtitle}
+          </ListItem.Subtitle>
         )}
       </ListItem.Content>
       {props.isLoading ? (
@@ -1265,7 +1389,7 @@ export const BlueReceiveButtonIcon = props => {
   );
 };
 
-export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = BitcoinUnit.BTC, timeElapsed }) => {
+export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = BitcoinUnit.BTC, itemPriceSecondaryUnit = BitcoinUnit.LOCAL_CURRENCY, timeElapsed }) => {
   const [subtitleNumberOfLines, setSubtitleNumberOfLines] = useState(1);
   const { colors } = useTheme();
   const { navigate } = useNavigation();
@@ -1289,7 +1413,9 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.confirmations, item.received, language]);
+
   const txMemo = txMetadata[item.hash]?.memo ?? '';
+
   const subtitle = useMemo(() => {
     let sub = item.confirmations < 7 ? loc.formatString(loc.transactions.list_conf, { number: item.confirmations }) : '';
     if (sub !== '') sub += ' ';
@@ -1308,19 +1434,43 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       const invoiceExpiration = item.timestamp + item.expire_time;
 
       if (invoiceExpiration > now) {
-        return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+        return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
       } else if (invoiceExpiration < now) {
         if (item.ispaid) {
-          return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+          return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
         } else {
           return loc.lnd.expired;
         }
       }
     } else {
-      return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+      return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, itemPriceUnit, preferredFiatCurrency]);
+
+  const rowSubtitle = useMemo(() => {
+    if (item.type === 'user_invoice' || item.type === 'payment_request') {
+      if (isNaN(item.value)) {
+        item.value = '0';
+      }
+      const currentDate = new Date();
+      const now = (currentDate.getTime() / 1000) | 0;
+      const invoiceExpiration = item.timestamp + item.expire_time;
+
+      if (invoiceExpiration > now) {
+        return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+      } else if (invoiceExpiration < now) {
+        if (item.ispaid) {
+          return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+        } else {
+          return loc.lnd.expired;
+        }
+      }
+    } else {
+      return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item, itemPriceSecondaryUnit, preferredFiatCurrency]);
 
   const rowTitleStyle = useMemo(() => {
     let color = colors.successColor;
@@ -1348,7 +1498,37 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       fontSize: 14,
       fontWeight: '600',
       textAlign: 'right',
-      width: 96,
+      width: 112,
+    };
+  }, [item, colors.foregroundColor, colors.successColor]);
+
+  const rowSubtitleStyle = useMemo(() => {
+    let color = colors.successColor;
+
+    if (item.type === 'user_invoice' || item.type === 'payment_request') {
+      const currentDate = new Date();
+      const now = (currentDate.getTime() / 1000) | 0;
+      const invoiceExpiration = item.timestamp + item.expire_time;
+
+      if (invoiceExpiration > now) {
+        color = colors.successColor;
+      } else if (invoiceExpiration < now) {
+        if (item.ispaid) {
+          color = colors.successColor;
+        } else {
+          color = '#9AA0AA';
+        }
+      }
+    } else if (item.value / 100000000 < 0) {
+      color = colors.foregroundColor;
+    }
+
+    return {
+      color,
+      fontSize: 14,
+      fontWeight: '600',
+      textAlign: 'right',
+      width: 112,
     };
   }, [item, colors.foregroundColor, colors.successColor]);
 
@@ -1487,6 +1667,8 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
         Component={TouchableOpacity}
         rightTitle={rowTitle}
         rightTitleStyle={rowTitleStyle}
+        rightSubtitle={rowSubtitle}
+        rightSubtitleStyle={rowSubtitleStyle}
         containerStyle={containerStyle}
       />
     </View>

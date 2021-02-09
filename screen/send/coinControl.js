@@ -185,6 +185,7 @@ OutputModal.propTypes = {
     confirmations: PropTypes.number.isRequired,
   }),
   balanceUnit: PropTypes.string,
+  balanceSecondaryUnit: PropTypes.string,
   oMemo: PropTypes.string,
 };
 
@@ -226,7 +227,7 @@ const OutputModalContent = ({ output, wallet, onUseCoin, frozen, setFrozen }) =>
 
   return (
     <>
-      <OutputModal item={output} balanceUnit={wallet.getPreferredBalanceUnit()} />
+      <OutputModal item={output} balanceUnit={wallet.getPreferredBalanceUnit()} balanceSecondaryUnit={wallet.getPreferredBalanceSecondaryUnit()} />
       <BlueSpacing20 />
       <TextInput
         testID="OutputMemo"
@@ -355,6 +356,7 @@ const CoinControl = () => {
     return (
       <OutputList
         balanceUnit={wallet.getPreferredBalanceUnit()}
+        balanceSecondaryUnit={wallet.getPreferredBalanceSecondaryUnit()}
         item={p.item}
         oMemo={memo}
         frozen={oFrozen}

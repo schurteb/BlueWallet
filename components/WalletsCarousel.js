@@ -1,17 +1,6 @@
 import React, { useRef, useCallback, useState, useImperativeHandle, forwardRef, useContext } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ActivityIndicator,
-  Animated,
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Animated, Image, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, useWindowDimensions, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel from 'react-native-snap-carousel';
@@ -112,6 +101,11 @@ const iStyles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontWeight: 'bold',
     fontSize: 36,
+  },
+  balanceSecondary: {
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
+    fontSize: 24,
   },
   latestTx: {
     backgroundColor: 'transparent',
@@ -233,10 +227,13 @@ const WalletCarouselItem = ({ item, index, onPress, handleLongPress, isSelectedW
       >
         <LinearGradient shadowColor={colors.shadowColor} colors={WalletGradient.gradientsFor(item.type)} style={iStyles.grad}>
           <Image source={image} style={iStyles.image} />
-          <Text style={iStyles.br} />
+
+          {/*<Text style={iStyles.br} />*/}
+
           <Text numberOfLines={1} style={[iStyles.label, { color: colors.inverseForegroundColor }]}>
             {item.getLabel()}
           </Text>
+
           {item.hideBalance ? (
             <BluePrivateBalance />
           ) : (
@@ -244,7 +241,17 @@ const WalletCarouselItem = ({ item, index, onPress, handleLongPress, isSelectedW
               {formatBalance(Number(item.getBalance()), item.getPreferredBalanceUnit(), true)}
             </Text>
           )}
+
+          {item.hideBalance ? (
+            <BluePrivateBalance />
+          ) : (
+            <Text numberOfLines={1} adjustsFontSizeToFit style={[iStyles.balanceSecondary, { color: colors.inverseForegroundColor }]}>
+              {formatBalance(Number(item.getBalance()), item.getPreferredBalanceSecondaryUnit(), true)}
+            </Text>
+          )}
+
           <Text style={iStyles.br} />
+
           <Text numberOfLines={1} style={[iStyles.latestTx, { color: colors.inverseForegroundColor }]}>
             {loc.wallets.list_latest_transaction}
           </Text>

@@ -151,6 +151,7 @@ function WatchConnectivity() {
           balance: formatBalance(Number(wallet.getBalance()), wallet.getPreferredBalanceUnit(), true),
           type: wallet.type,
           preferredBalanceUnit: wallet.getPreferredBalanceUnit(),
+          preferredBalanceSecondaryUnit: wallet.getPreferredBalanceSecondaryUnit(),
           receiveAddress: receiveAddress,
           transactions: watchTransactions,
           xpub: wallet.getXpub() ? wallet.getXpub() : wallet.getSecret(),

@@ -1,7 +1,7 @@
 /* global alert */
 import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { ScrollView, Alert, TouchableOpacity, TouchableWithoutFeedback, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { colors } from 'react-native-elements';
 
@@ -13,11 +13,20 @@ import { BlueStorageContext } from '../../blue_modules/storage-context';
 const prompt = require('../../blue_modules/prompt');
 
 const EncryptStorage = () => {
-  const { isStorageEncrypted, encryptStorage, decryptStorage, saveToDisk } = useContext(BlueStorageContext);
+  const { isStorageEncrypted, encryptStorage, decryptStorage, saveToDisk, language } = useContext(BlueStorageContext);
   const [isLoading, setIsLoading] = useState(true);
   const [biometrics, setBiometrics] = useState({ isDeviceBiometricCapable: false, isBiometricsEnabled: false, biometricsType: '' });
   const [storageIsEncryptedSwitchEnabled, setStorageIsEncryptedSwitchEnabled] = useState(false);
-  const { navigate, popToTop } = useNavigation();
+  const { navigate, setOptions, popToTop } = useNavigation();
+  const { colors } = useTheme();
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.encrypt_title,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
+
   const styles = StyleSheet.create({
     root: {
       flex: 1,
@@ -35,6 +44,7 @@ const EncryptStorage = () => {
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     initialState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,7 +142,8 @@ const EncryptStorage = () => {
       <ScrollView contentContainerStyle={styles.root}>
         {biometrics.isDeviceBiometricCapable && (
           <>
-            <BlueHeaderDefaultSub leftText={loc.settings.biometrics} rightComponent={null} />
+            {/*<BlueHeaderDefaultSub leftText={loc.settings.biometrics} rightComponent={null} />*/}
+            <BlueText style={{marginLeft: 15, fontSize: 20, fontWeight: 'bold', color: colors.foregroundColor}}>{loc.settings.biometrics}</BlueText>
             <BlueListItem
               title={loc.formatString(loc.settings.encrypt_use, { type: biometrics.biometricsType })}
               Component={TouchableWithoutFeedback}
@@ -144,7 +155,8 @@ const EncryptStorage = () => {
             <BlueSpacing20 />
           </>
         )}
-        <BlueHeaderDefaultSub leftText={loc.settings.encrypt_tstorage} rightComponent={null} />
+        {/*<BlueHeaderDefaultSub leftText={loc.settings.encrypt_tstorage} rightComponent={null} />*/}
+        <BlueText style={{marginLeft: 15, fontSize: 20, fontWeight: 'bold', color: colors.foregroundColor}}>{loc.settings.encrypt_tstorage}</BlueText>
         <BlueListItem
           testID="EncyptedAndPasswordProtected"
           hideChevron
@@ -168,5 +180,5 @@ const EncryptStorage = () => {
 
 export default EncryptStorage;
 EncryptStorage.navigationOptions = navigationStyle({
-  headerTitle: loc.settings.encrypt_title,
+  title: loc.settings.encrypt_title,
 });

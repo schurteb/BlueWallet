@@ -1,7 +1,7 @@
 /* global alert */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ScrollView, TouchableWithoutFeedback, StyleSheet, Linking, View, TextInput } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { Button } from 'react-native-elements';
 
 import navigationStyle from '../../components/navigationStyle';
@@ -9,6 +9,7 @@ import { BlueButton, BlueCard, BlueCopyToClipboardButton, BlueListItem, BlueLoad
 import loc from '../../loc';
 import { BlueCurrentTheme } from '../../components/themes';
 import Notifications from '../../blue_modules/notifications';
+import { BlueStorageContext } from '../../blue_modules/storage-context';
 
 const NotificationSettings = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,8 +17,17 @@ const NotificationSettings = () => {
   const [isShowTokenInfo, setShowTokenInfo] = useState(0);
   const [tokenInfo, setTokenInfo] = useState('<empty>');
   const [URI, setURI] = useState();
+  const { language } = useContext(BlueStorageContext);
+  const { navigate, setOptions } = useNavigation();
 
   const { colors } = useTheme();
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.notifications,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   const onNotificationsSwitch = async value => {
     setNotificationsEnabled(value); // so the slider is not 'jumpy'

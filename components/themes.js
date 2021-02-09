@@ -6,7 +6,7 @@ export const BlueDefaultTheme = {
   closeImage: require('../img/close.png'),
   scanImage: require('../img/scan.png'),
   colors: {
-    ...DefaultTheme.colors,
+    //...DefaultTheme.colors,
     brandingColor: '#ffffff',
     foregroundColor: '#0c2550',
     borderTopColor: 'rgba(0, 0, 0, 0.1)',
@@ -69,12 +69,16 @@ export const BlueDarkTheme = {
   colors: {
     ...BlueDefaultTheme.colors,
     ...DarkTheme.colors,
-    brandingColor: '#000000',
+    background: '#3A3A3C', // override for DarkTheme.colors.background
+    //border: '#3A3A3C', // override for DarkTheme.colors.border
+    card: '#3A3A3C', // override for DarkTheme.colors.card
+
+    brandingColor: '#3A3A3C',
     borderTopColor: '#9aa0aa',
     foregroundColor: '#ffffff',
-    buttonDisabledBackgroundColor: '#3A3A3C',
-    buttonBackgroundColor: '#3A3A3C',
-    customHeader: '#000000',
+    buttonDisabledBackgroundColor: '#4A4A4C',
+    buttonBackgroundColor: '#4A4A4C',
+    customHeader: '#3A3A3C',
     buttonTextColor: '#ffffff',
     lightButton: 'rgba(255,255,255,.1)',
     buttonAlternativeTextColor: '#ffffff',
@@ -94,7 +98,7 @@ export const BlueDarkTheme = {
     feeValue: '#000000',
     cta2: '#ffffff',
     outputValue: '#ffffff',
-    elevated: '#121212',
+    elevated: '#363636',
     mainColor: '#0A84FF',
     success: '#202020',
     successCheck: '#0A84FF',

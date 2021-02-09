@@ -55,6 +55,7 @@ const WalletTransactions = () => {
   const wallet = useRef(wallets.find(w => w.getID() === walletID));
   const name = useRoute().name;
   const [itemPriceUnit, setItemPriceUnit] = useState(wallet.current.getPreferredBalanceUnit());
+  const [itemPriceSecondaryUnit, setItemPriceSecondaryUnit] = useState(wallet.current.getPreferredBalanceSecondaryUnit());
   const [dataSource, setDataSource] = useState(wallet.current.getTransactions(15));
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [limit, setLimit] = useState(15);
@@ -123,6 +124,7 @@ const WalletTransactions = () => {
     setPageSize(20);
     setTimeElapsed(0);
     setItemPriceUnit(wallet.current.getPreferredBalanceUnit());
+    setItemPriceSecondaryUnit(wallet.current.getPreferredBalanceSecondaryUnit());
     setIsLoading(false);
     setSelectedWallet(wallet.current.getID());
     setDataSource(wallet.current.getTransactions(15));
@@ -437,7 +439,7 @@ const WalletTransactions = () => {
     });
   };
 
-  const renderItem = item => <BlueTransactionListItem item={item.item} itemPriceUnit={itemPriceUnit} timeElapsed={timeElapsed} />;
+  const renderItem = item => <BlueTransactionListItem item={item.item} itemPriceUnit={itemPriceUnit} itemPriceSecondaryUnit={itemPriceSecondaryUnit} timeElapsed={timeElapsed} />;
 
   const onBarCodeRead = ret => {
     if (!isLoading) {
@@ -604,6 +606,16 @@ const WalletTransactions = () => {
         onWalletUnitChange={passedWallet =>
           InteractionManager.runAfterInteractions(async () => {
             setItemPriceUnit(passedWallet.getPreferredBalanceUnit());
+            setItemPriceSecondaryUnit(passedWallet.getPreferredBalanceSecondaryUnit());
+            console.log("Saving price unit to " + passedWallet.getPreferredBalanceUnit());
+            saveToDisk();
+          })
+        }
+        onWalletSecondaryUnitChange={passedWallet =>
+          InteractionManager.runAfterInteractions(async () => {
+            setItemPriceUnit(passedWallet.getPreferredBalanceUnit());
+            setItemPriceSecondaryUnit(passedWallet.getPreferredBalanceSecondaryUnit());
+            console.log("Saving secondary price unit to " + passedWallet.getPreferredBalanceSecondaryUnit());
             saveToDisk();
           })
         }

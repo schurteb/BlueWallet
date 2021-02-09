@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { TouchableOpacity, ScrollView, Linking, Image, View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
@@ -8,11 +8,21 @@ import Rate, { AndroidMarket } from 'react-native-rate';
 import { BlueButton, BlueCard, BlueListItem, BlueSpacing20, BlueTextCentered, SafeBlueArea } from '../../BlueComponents';
 import navigationStyle from '../../components/navigationStyle';
 import loc from '../../loc';
+import { BlueStorageContext } from '../../blue_modules/storage-context';
 
 const About = () => {
-  const { navigate } = useNavigation();
+  const { navigate, setOptions } = useNavigation();
+  const { language } = useContext(BlueStorageContext);
   const { colors } = useTheme();
   const { width, height } = useWindowDimensions();
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.about,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
+
   const styles = StyleSheet.create({
     root: {
       flex: 1,
@@ -209,6 +219,6 @@ const About = () => {
 };
 
 About.navigationOptions = navigationStyle({
-  headerTitle: loc.settings.about,
+  title: loc.settings.about,
 });
 export default About;

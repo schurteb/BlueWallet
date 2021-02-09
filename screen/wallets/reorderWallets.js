@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: '#fff',
   },
+  balanceSecondary: {
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#fff',
+  },
   latestTxLabel: {
     backgroundColor: 'transparent',
     fontSize: 13,
@@ -134,9 +140,11 @@ const ReorderWallets = () => {
           />
 
           <Text style={styles.transparentText} />
+          
           <Text numberOfLines={1} style={styles.label}>
             {item.getLabel()}
           </Text>
+
           {item.hideBalance ? (
             <BluePrivateBalance />
           ) : (
@@ -144,10 +152,21 @@ const ReorderWallets = () => {
               {formatBalance(Number(item.getBalance()), item.getPreferredBalanceUnit(), true)}
             </Text>
           )}
+
+          {item.hideBalance ? (
+            <BluePrivateBalance />
+          ) : (
+            <Text numberOfLines={1} adjustsFontSizeToFit style={styles.balanceSecondary}>
+              {formatBalance(Number(item.getBalance()), item.getPreferredBalanceSecondaryUnit(), true)}
+            </Text>
+          )}
+
           <Text style={styles.transparentText} />
+
           <Text numberOfLines={1} style={styles.latestTxLabel}>
             {loc.wallets.list_latest_transaction}
           </Text>
+
           <Text numberOfLines={1} style={styles.latestTxValue}>
             {item.getTransactions().find(tx => tx.confirmations === 0)
               ? loc.transactions.pending.toLowerCase()

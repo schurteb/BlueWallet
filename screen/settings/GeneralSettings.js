@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
 });
 
 const GeneralSettings = () => {
-  const { isAdancedModeEnabled, setIsAdancedModeEnabled, wallets, isHandOffUseEnabled, setIsHandOffUseEnabledAsyncStorage } = useContext(
+  const { isAdancedModeEnabled, setIsAdancedModeEnabled, wallets, isHandOffUseEnabled, setIsHandOffUseEnabledAsyncStorage, language } = useContext(
     BlueStorageContext,
   );
   const [isLoading, setIsLoading] = useState(true);
   const [isAdancedModeSwitchEnabled, setIsAdancedModeSwitchEnabled] = useState(false);
-  const { navigate } = useNavigation();
+  const { navigate, setOptions } = useNavigation();
   const { colors } = useTheme();
   const onAdvancedModeSwitch = async value => {
     await setIsAdancedModeEnabled(value);
@@ -32,6 +32,13 @@ const GeneralSettings = () => {
       setIsLoading(false);
     })();
   });
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.general,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   const stylesWithThemeHook = {
     root: {

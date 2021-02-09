@@ -1,7 +1,8 @@
 /* global alert */
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import DefaultPreference from 'react-native-default-preference';
 import RNWidgetCenter from 'react-native-widget-center';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,6 +50,7 @@ export default class ElectrumSettings extends Component {
     const inverval = setInterval(async () => {
       this.setState({
         config: await BlueElectrum.getConfig(),
+        title: 'Test',
       });
     }, 500);
 

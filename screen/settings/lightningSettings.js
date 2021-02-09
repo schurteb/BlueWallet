@@ -1,5 +1,5 @@
 /* global alert */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { View, TextInput, Linking, StyleSheet, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useTheme, useNavigation, useRoute } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { LightningCustodianWallet } from '../../class/wallets/lightning-custodia
 import loc from '../../loc';
 import { BlueCurrentTheme } from '../../components/themes';
 import DeeplinkSchemaMatch from '../../class/deeplink-schema-match';
+import { BlueStorageContext } from '../../blue_modules/storage-context';
 
 const styles = StyleSheet.create({
   root: {
@@ -45,9 +46,10 @@ const LightningSettings = () => {
   const params = useRoute().params;
   const [isLoading, setIsLoading] = useState(true);
   const [URI, setURI] = useState();
+  const { language } = useContext(BlueStorageContext);
   const { colors } = useTheme();
   const route = useRoute();
-  const navigation = useNavigation();
+  const { navigation, navigate, setOptions } = useNavigation();
 
   useEffect(() => {
     AsyncStorage.getItem(AppStorage.LNDHUB)
@@ -73,6 +75,13 @@ const LightningSettings = () => {
       );
     }
   }, [params?.url]);
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.lightning_settings,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   const setLndhubURI = value => {
     if (DeeplinkSchemaMatch.getUrlFromSetLndhubUrlAction(value)) {
