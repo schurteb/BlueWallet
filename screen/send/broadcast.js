@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, Linking, StyleSheet, View, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
@@ -19,7 +19,8 @@ import {
 } from '../../BlueComponents';
 import BlueElectrum from '../../blue_modules/BlueElectrum';
 import Notifications from '../../blue_modules/notifications';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { BlueStorageContext } from '../../blue_modules/storage-context';
 const bitcoin = require('bitcoinjs-lib');
 
 const BROADCAST_RESULT = Object.freeze({
@@ -32,8 +33,18 @@ const BROADCAST_RESULT = Object.freeze({
 const Broadcast = () => {
   const [tx, setTx] = useState();
   const [txHex, setTxHex] = useState();
+  const { language } = useContext(BlueStorageContext);
+  const { setOptions } = useNavigation();
   const { colors } = useTheme();
   const [broadcastResult, setBroadcastResult] = useState(BROADCAST_RESULT.none);
+
+  useEffect(() => {
+    setOptions({
+      title: loc.send.create_broadcast,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
+
   const stylesHooks = StyleSheet.create({
     blueArea: {
       backgroundColor: colors.background,

@@ -714,12 +714,73 @@ export const BlueListItem = React.memo(props => {
       </ListItem.Content>
       <ListItem.Content right>
         {props.rightTitle && (
-          <ListItem.Title style={props.rightTitleStyle} numberOfLines={0} right>
+          <ListItem.Title style={props.rightTitleStyle} numberOfLines={1} right>
             {props.rightTitle}
           </ListItem.Title>
         )}
         {props.rightSubtitle && (
-          <ListItem.Subtitle style={props.rightSubtitleStyle} numberOfLines={0} right>
+          <ListItem.Subtitle style={props.rightSubtitleStyle} numberOfLines={1} right>
+            {props.rightSubtitle}
+          </ListItem.Subtitle>
+        )}
+      </ListItem.Content>
+      {props.isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          {props.chevron && <ListItem.Chevron />}
+          {props.rightIcon && <Avatar icon={props.rightIcon} />}
+          {props.switch && <Switch {...props.switch} />}
+          {props.checkmark && <ListItem.CheckBox iconType="octaicon" checkedColor="#0070FF" checkedIcon="check" checked />}
+        </>
+      )}
+    </ListItem>
+  );
+});
+
+export const BlueCardItem = React.memo(props => {
+  const { colors } = useTheme();
+  return (
+    <ListItem
+      containerStyle={props.containerStyle ?? { backgroundColor: 'transparent' }}
+      Component={props.Component ?? TouchableOpacity}
+      bottomDivider={props.bottomDivider !== undefined ? props.bottomDivider : true}
+      topDivider={props.topDivider !== undefined ? props.topDivider : false}
+      testID={props.testID}
+      onPress={props.onPress}
+      disabled={props.disabled}
+    >
+      {props.leftAvatar && <Avatar>{props.leftAvatar}</Avatar>}
+      {props.leftIcon && props.leftIconType && <Icon name={props.leftIcon} type={props.leftIconType} color={colors.foregroundColor} />}
+      <ListItem.Content>
+        <ListItem.Title
+          style={{
+            color: props.disabled ? colors.buttonDisabledTextColor : colors.foregroundColor,
+            fontSize: 16,
+            fontWeight: '500',
+          }}
+          numberOfLines={0}
+        >
+          {props.title}
+        </ListItem.Title>
+        {props.subtitle && (
+          <ListItem.Subtitle
+            numberOfLines={1}
+            style={{ flexWrap: 'wrap', color: colors.alternativeTextColor, fontWeight: '400', fontSize: 14 }}
+          >
+            {props.subtitle}
+          </ListItem.Subtitle>
+        )}
+      </ListItem.Content>
+      
+      <ListItem.Content right>
+        {props.rightTitle && (
+          <ListItem.Title style={props.rightTitleStyle} numberOfLines={1} right>
+            {props.rightTitle}
+          </ListItem.Title>
+        )}
+        {props.rightSubtitle && (
+          <ListItem.Subtitle style={props.rightSubtitleStyle} numberOfLines={1} right>
             {props.rightSubtitle}
           </ListItem.Subtitle>
         )}
@@ -1373,16 +1434,16 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       const invoiceExpiration = item.timestamp + item.expire_time;
 
       if (invoiceExpiration > now) {
-        return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+        return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
       } else if (invoiceExpiration < now) {
         if (item.ispaid) {
-          return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+          return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
         } else {
           return loc.lnd.expired;
         }
       }
     } else {
-      return formatBalanceWithoutSuffix(item.value && item.value, itemPriceUnit, true).toString();
+      return formatBalance(item.value && item.value, itemPriceUnit, true).toString();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, itemPriceUnit, preferredFiatCurrency]);
@@ -1397,16 +1458,16 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       const invoiceExpiration = item.timestamp + item.expire_time;
 
       if (invoiceExpiration > now) {
-        return formatBalanceWithoutSuffix(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+        return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
       } else if (invoiceExpiration < now) {
         if (item.ispaid) {
-          return formatBalanceWithoutSuffix(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+          return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
         } else {
           return loc.lnd.expired;
         }
       }
     } else {
-      return formatBalanceWithoutSuffix(item.value && item.value, itemPriceSecondaryUnit, true).toString();
+      return formatBalance(item.value && item.value, itemPriceSecondaryUnit, true).toString();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, itemPriceSecondaryUnit, preferredFiatCurrency]);
@@ -1437,7 +1498,7 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       fontSize: 14,
       fontWeight: '600',
       textAlign: 'right',
-      width: 96,
+      width: 112,
     };
   }, [item, colors.foregroundColor, colors.successColor]);
 
@@ -1467,7 +1528,7 @@ export const BlueTransactionListItem = React.memo(({ item, itemPriceUnit = Bitco
       fontSize: 14,
       fontWeight: '600',
       textAlign: 'right',
-      width: 96,
+      width: 112,
     };
   }, [item, colors.foregroundColor, colors.successColor]);
 

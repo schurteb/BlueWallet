@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import navigationStyle from '../../components/navigationStyle';
 import { SafeBlueArea, BlueCard, BlueText, BlueSpacing20, BlueLoading } from '../../BlueComponents';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { BlueStorageContext } from '../../blue_modules/storage-context';
 
 const styles = StyleSheet.create({
   root: {
@@ -11,10 +13,20 @@ const styles = StyleSheet.create({
 
 const Licensing = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useContext(BlueStorageContext);
+  const { colors } = useTheme();
+  const { setOptions } = useNavigation();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    setOptions({
+      title: 'License',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   return isLoading ? (
     <BlueLoading />

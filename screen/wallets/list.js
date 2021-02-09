@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { StatusBar, View, TouchableOpacity, Text, StyleSheet, SectionList, Alert, Platform, Image, Dimensions, useWindowDimensions, SafeAreaView } from "react-native";
-import { BlueHeaderDefaultMain, BlueTransactionListItem, } from "../../BlueComponents";
+import { BlueButton, BlueHeaderDefaultMain, BlueTransactionListItem, } from "../../BlueComponents";
 import WalletsCarousel from "../../components/WalletsCarousel";
 import { Icon } from "react-native-elements";
 import DeeplinkSchemaMatch from "../../class/deeplink-schema-match";
@@ -11,10 +11,12 @@ import ActionSheet from "../ActionSheet";
 import Clipboard from "@react-native-community/clipboard";
 import loc from "../../loc";
 import { FContainer, FButton } from "../../components/FloatButtons";
+import { NavContainer, NavIconButton } from "../../components/NavButtons";
 import { isTablet } from "react-native-device-info";
 import { useFocusEffect, useNavigation, useRoute, useTheme } from "@react-navigation/native";
 import { BlueStorageContext } from "../../blue_modules/storage-context";
 import { isCatalyst, isMacCatalina } from "../../blue_modules/environment";
+import navigationStyle from '../../components/navigationStyle';
 
 const A = require("../../blue_modules/analytics");
 const fs = require("../../blue_modules/fs");
@@ -56,6 +58,10 @@ const WalletsList = () => {
     walletsListWrapper: {
       backgroundColor: colors.brandingColor,
     },
+    footerNavigationWrapper: {
+      backgroundColor: colors.background,
+      //backgroundColor: colors.background,
+    },
     listHeaderBack: {
       backgroundColor: colors.background,
     },
@@ -65,7 +71,6 @@ const WalletsList = () => {
     ltRoot: {
       backgroundColor: colors.ballOutgoingExpired,
     },
-
     ltTextBig: {
       color: colors.foregroundColor,
     },
@@ -110,10 +115,11 @@ const WalletsList = () => {
 
   useEffect(() => {
     setOptions({
-      title: "",
+      title: loc.wallets.list_title,
       headerShown: !isCatalyst,
       headerStyle: {
         backgroundColor: colors.customHeader,
+        //color: colors.foregroundColor,
         borderBottomWidth: 0,
         elevation: 0,
         shadowOpacity: 0,
@@ -136,6 +142,14 @@ const WalletsList = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colors]);
+
+  const navigateToWalletsList = () => {
+    navigate("WalletsList");
+  };
+
+  const navigateToAddWalletRoot = () => {
+    navigate("AddWalletRoot");
+  };
 
   const navigateToSettings = () => {
     navigate("Settings");
@@ -331,7 +345,7 @@ const WalletsList = () => {
   const renderSectionHeader = (section) => {
     switch (section.section.key) {
       case WalletsListSections.CAROUSEL:
-        return isLargeScreen ? null : (
+        return isLargeScreen ? null : null;/*(
           <BlueHeaderDefaultMain
             leftText={loc.wallets.list_title}
             onNewWalletPress={
@@ -342,7 +356,7 @@ const WalletsList = () => {
                 : null
             }
           />
-        );
+        );*/
       case WalletsListSections.TRANSACTIONS:
         return renderListHeaderComponent();
       default:
@@ -390,6 +404,36 @@ const WalletsList = () => {
     } else {
       return null;
     }
+  };
+
+  const renderFooterNavigation = () => {
+    return (
+      <View style={[styles.footerNavigationWrapper, stylesHook.footerNavigationWrapper]}>
+        <NavContainer>
+          <NavIconButton
+            onPress={navigateToWalletsList}
+            icon={<Icon name="wallet" type="simple-line-icon" color={colors.foregroundColor} />}
+            //text={loc._.enter_password}
+            testID="NavigationHomeButton"
+            width={10}
+          />
+          <NavIconButton
+            onPress={navigateToAddWalletRoot}
+            icon={<Icon name="plus" type="simple-line-icon" color={colors.foregroundColor} />}
+            //text={loc._.enter_password}
+            testID="NavigationAddWalletButton"
+            width={10}
+          />
+          <NavIconButton
+            onPress={navigateToSettings}
+            icon={<Icon name="settings" type="simple-line-icon" color={colors.foregroundColor} />}
+            //text={loc._.enter_password + 'again'}
+            testID="NavigationSettingsButton"
+            width={10}
+          />
+        </NavContainer>
+      </View>
+    );
   };
 
   const sectionListKeyExtractor = (item, index) => {
@@ -540,11 +584,17 @@ const WalletsList = () => {
         />
         {renderScanButton()}
       </View>
+      
+      {renderFooterNavigation()}
+
     </View>
   );
 };
 
 export default WalletsList;
+WalletsList.navigationOptions = navigationStyle({
+  title: loc.wallets.list_title,
+});
 
 const styles = StyleSheet.create({
   root: {
@@ -561,6 +611,10 @@ const styles = StyleSheet.create({
   },
   walletsListWrapper: {
     flex: 1,
+  },
+  footerNavigationWrapper: {
+    flex: 0.08,
+    bottom: 0,
   },
   headerStyle: {
     ...Platform.select({

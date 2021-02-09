@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView, TouchableWithoutFeedback, StyleSheet, Linking, Platform } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 import navigationStyle from '../../components/navigationStyle';
 import { BlueText, BlueSpacing20, BlueListItem, BlueCard, BlueHeaderDefaultSub } from '../../BlueComponents';
@@ -12,7 +12,7 @@ import WidgetCommunication from '../../blue_modules/WidgetCommunication';
 
 const SettingsPrivacy = () => {
   const { colors } = useTheme();
-  const { isStorageEncrypted } = useContext(BlueStorageContext);
+  const { isStorageEncrypted, language } = useContext(BlueStorageContext);
   const sections = Object.freeze({ ALL: 0, CLIPBOARDREAD: 1, QUICKACTION: 2, WIDGETS: 3 });
   const [isLoading, setIsLoading] = useState(sections.ALL);
   const [isReadClipboardAllowed, setIsReadClipboardAllowed] = useState(false);
@@ -20,6 +20,7 @@ const SettingsPrivacy = () => {
   const [isDisplayWidgetBalanceAllowed, setIsDisplayWidgetBalanceAllowed] = useState(false);
   const [isQuickActionsEnabled, setIsQuickActionsEnabled] = useState(false);
   const [storageIsEncrypted, setStorageIsEncrypted] = useState(true);
+  const { setOptions } = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -35,6 +36,13 @@ const SettingsPrivacy = () => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.privacy,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   const onValueChange = async value => {
     setIsLoading(sections.CLIPBOARDREAD);
@@ -81,7 +89,7 @@ const SettingsPrivacy = () => {
 
   return (
     <ScrollView style={[styles.root, stylesWithThemeHook.root]}>
-      <BlueHeaderDefaultSub leftText={loc.settings.general} rightComponent={null} />
+      {/*<BlueHeaderDefaultSub leftText={loc.settings.general} rightComponent={null} />*/}
       <BlueListItem
         hideChevron
         title={loc.settings.privacy_read_clipboard}

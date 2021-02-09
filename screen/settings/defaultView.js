@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 
 import navigationStyle from '../../components/navigationStyle';
 import { SafeBlueArea, BlueCard, BlueListItem, BlueText } from '../../BlueComponents';
@@ -17,8 +17,16 @@ const styles = StyleSheet.create({
 const DefaultView = () => {
   const [defaultWalletLabel, setDefaultWalletLabel] = useState('');
   const [viewAllWalletsEnabled, setViewAllWalletsEnabled] = useState(true);
-  const { navigate, pop } = useNavigation();
-  const { wallets } = useContext(BlueStorageContext);
+  const { navigate, setOptions, pop } = useNavigation();
+  const { wallets, language } = useContext(BlueStorageContext);
+  const { colors } = useTheme();
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.default_title,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   useEffect(() => {
     (async () => {

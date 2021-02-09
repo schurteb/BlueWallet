@@ -65,7 +65,7 @@ const Language = () => {
 };
 
 Language.navigationOptions = navigationStyle({
-  headerTitle: loc.settings.language,
+  title: loc.settings.language,
 });
 
 export default Language;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FlatList, ActivityIndicator, View, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 import navigationStyle from '../../components/navigationStyle';
 import { SafeBlueArea, BlueListItem, BlueText, BlueCard } from '../../BlueComponents';
@@ -12,10 +12,19 @@ const currency = require('../../blue_modules/currency');
 const data = Object.values(FiatUnit);
 
 const Currency = () => {
-  const { setPreferredFiatCurrency } = useContext(BlueStorageContext);
+  const { setPreferredFiatCurrency, language } = useContext(BlueStorageContext);
   const [isSavingNewPreferredCurrency, setIsSavingNewPreferredCurrency] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState(null);
+  const { navigate, setOptions } = useNavigation();
   const { colors } = useTheme();
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.currency,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
+
   const styles = StyleSheet.create({
     flex: {
       flex: 1,

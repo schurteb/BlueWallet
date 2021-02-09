@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FlatList, ActivityIndicator, View, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 import navigationStyle from '../../components/navigationStyle';
 import { SafeBlueArea, BlueListItem, BlueText, BlueCard } from '../../BlueComponents';
@@ -11,10 +11,12 @@ const theme = require('../../blue_modules/theme');
 const data = Object.values(['auto', 'light', 'dark']);
 
 const Theme = () => {
-  const { setPreferredTheme } = useContext(BlueStorageContext);
+  const { setPreferredTheme, language } = useContext(BlueStorageContext);
   const [isSavingNewPreferredTheme, setIsSavingNewPreferredTheme] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const { colors } = useTheme();
+  const { setOptions } = useNavigation();
+
   const styles = StyleSheet.create({
     flex: {
       flex: 1,
@@ -42,6 +44,13 @@ const Theme = () => {
     };
     fetchTheme();
   }, []);
+
+  useEffect(() => {
+    setOptions({
+      title: loc.settings.theme,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, language]);
 
   if (selectedTheme !== null && selectedTheme !== undefined) {
     return (
