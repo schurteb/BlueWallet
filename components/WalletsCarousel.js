@@ -72,12 +72,11 @@ const iStyles = StyleSheet.create({
   grad: {
     padding: 15,
     borderRadius: 10,
-    minHeight: 164,
     elevation: 5,
   },
   image: {
-    width: 99,
-    height: 94,
+    width: 99 * 0.75,
+    height: 94 * 0.75,
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -87,7 +86,7 @@ const iStyles = StyleSheet.create({
   },
   label: {
     backgroundColor: 'transparent',
-    fontSize: 19,
+    fontSize: 16,
   },
   importError: {
     backgroundColor: 'transparent',
@@ -100,12 +99,12 @@ const iStyles = StyleSheet.create({
   balance: {
     backgroundColor: 'transparent',
     fontWeight: 'bold',
-    fontSize: 36,
+    fontSize: 20,
   },
   balanceSecondary: {
     backgroundColor: 'transparent',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 20,
   },
   latestTx: {
     backgroundColor: 'transparent',
@@ -250,7 +249,8 @@ const WalletCarouselItem = ({ item, index, onPress, handleLongPress, isSelectedW
             </Text>
           )}
 
-          <Text style={iStyles.br} />
+          {/* TODO Currently disabled - enabling/removal pending */}
+          {/*<Text style={iStyles.br} />
 
           <Text numberOfLines={1} style={[iStyles.latestTx, { color: colors.inverseForegroundColor }]}>
             {loc.wallets.list_latest_transaction}
@@ -258,7 +258,7 @@ const WalletCarouselItem = ({ item, index, onPress, handleLongPress, isSelectedW
 
           <Text numberOfLines={1} style={[iStyles.latestTxTime, { color: colors.inverseForegroundColor }]}>
             {latestTransactionText}
-          </Text>
+          </Text>*/}
         </LinearGradient>
       </TouchableWithoutFeedback>
     </Animated.View>
@@ -278,8 +278,11 @@ const cStyles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
   },
+  container: {
+    maxHeight: 125,
+  },
   content: {
-    left: 20,
+    left: 45,
   },
 });
 
@@ -308,7 +311,7 @@ const WalletsCarousel = forwardRef((props, ref) => {
   const { width } = useWindowDimensions();
   const sliderWidth = width * 1;
   const itemWidth = width * 0.82 > 375 ? 375 : width * 0.82;
-  const sliderHeight = 190;
+  const sliderHeight = (190 * 0.5);
 
   const onLayout = () => setLoading(false);
 
@@ -338,6 +341,7 @@ const WalletsCarousel = forwardRef((props, ref) => {
         activeSlideAlignment="start"
         initialNumToRender={10}
         onLayout={onLayout}
+        containerCustomStyle={cStyles.container}
         contentContainerCustomStyle={cStyles.content}
         {...props}
       />
